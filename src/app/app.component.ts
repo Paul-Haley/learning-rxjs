@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {of} from "rxjs";
+import {Observable, of} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -8,10 +8,11 @@ import {of} from "rxjs";
 })
 export class AppComponent {
   title = 'learning-rxjs';
+  sumOb: Observable<number> = of(1, 2, 3);
 
-  constructor() {
-    // taken from: https://rxjs-dev.firebaseapp.com/api/index/class/Observable#create
-    const sumObserver = {
+  ngOnInit() {
+    // adapted from: https://rxjs-dev.firebaseapp.com/api/index/class/Observable#create
+     const sumObserver = {
       sum: 0,
       next(value: number) {
         console.log('Adding: ' + value);
@@ -25,8 +26,6 @@ export class AppComponent {
         console.log('Sum equals: ' + this.sum);
       }
     };
-
-    of(1, 2, 3) // Synchronously emits 1, 2, 3 and then completes.
-      .subscribe(sumObserver);
+    this.sumOb.subscribe(sumObserver);
   }
 }
