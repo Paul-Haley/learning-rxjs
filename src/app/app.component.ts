@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import {BehaviorSubject, Observable, of, ReplaySubject, Subject} from "rxjs";
+import {interval} from "rxjs";
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -8,18 +9,14 @@ import {BehaviorSubject, Observable, of, ReplaySubject, Subject} from "rxjs";
 })
 export class AppComponent {
   title = 'learning-rxjs';
-  private mySubject: Subject<number> = new ReplaySubject();
 
   ngOnInit() {
-    this.mySubject.subscribe(x => console.log('first subscribe', x));
-    this.mySubject.next(1);
-    this.mySubject.next(2);
-    this.mySubject.subscribe(x => console.log('second subscribe', x));
-    this.mySubject.next(3);
+    // https://rxjs.dev/api/index/function/interval
+    const numbers = interval(1000).pipe(take(5));
 
+    numbers.subscribe(x => console.log(x));
   }
 
   ngOnDestroy() {
-    this.mySubject.unsubscribe();
   }
 }
