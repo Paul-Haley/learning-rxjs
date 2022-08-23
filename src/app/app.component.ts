@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {interval} from "rxjs";
+import {interval, map, subscribeOn} from "rxjs";
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -12,9 +12,12 @@ export class AppComponent {
 
   ngOnInit() {
     // https://rxjs.dev/api/index/function/interval
-    const numbers = interval(1000).pipe(take(5));
+    const numbers = interval(1000);
 
-    numbers.subscribe(x => console.log(x));
+    numbers.pipe(
+      take(5),
+      map(x => x * x)
+    ).subscribe(x => console.log(x));
   }
 
   ngOnDestroy() {
