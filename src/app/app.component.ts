@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {filter, interval, map, mergeMap, Observable, of, subscribeOn} from "rxjs";
+import {interval, map, of, switchMap} from "rxjs";
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -16,7 +16,7 @@ export class AppComponent {
     const letters = of('a', 'b', 'c', 'd', 'e');
 
     letters.pipe(
-      mergeMap(x =>
+      switchMap(x =>
         numbers.pipe(
           take(5),
           map(i => i + x))
