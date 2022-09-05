@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {fromEvent} from "rxjs";
+import {debounceTime, Subject} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -7,13 +7,19 @@ import {fromEvent} from "rxjs";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'learning-rxjs';
+  searchSubject = new Subject<string>();
 
   ngOnInit() {
-    const clicks = fromEvent(document, 'click');
-    clicks.subscribe(x => console.log(x));
+    this.searchSubject.pipe(
+      debounceTime(200)
+    ).subscribe(x => console.log("debounced: ", x));
   }
 
   ngOnDestroy() {
+  }
+
+  inputChanged(event: any) {
+    console.log('input changed', event);
+    this.searchSubject.next(event);
   }
 }
